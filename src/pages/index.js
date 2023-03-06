@@ -1,11 +1,11 @@
 import Head from 'next/head'
-// import Navbar from '@/components/navigation/navbar'
-// import Footer from '@/components/navigation/footer'
+import Navbar from '@/components/navigation/navbar'
+import Footer from '@/components/navigation/footer'
 // import Welcome from '@/components/home/welcome'
 // import Services from '@/components/home/services'
 // import Reason from '@/components/home/reason'
 // import Team from '@/components/home/team'
-// import Hero from '@/components/home/hero'
+import Hero from '@/components/home/hero'
 import { getWSSchema, getWPSchema, getLBSchema } from '@/components/schema';
 
 export default function HomePage() {
@@ -81,13 +81,13 @@ export default function HomePage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(lBSchema) }} />
       </Head>
 
-      {/* <Navbar /> */}
-      {/* <Hero />
-      <Welcome />
-      <Services />
-      <Reason />
-      <Team /> */}
-      {/* <Footer /> */}
+      <Navbar />
+      <Hero />
+      {/* <Welcome /> */}
+      {/* <Services /> */}
+      {/* <Reason /> */}
+      {/* <Team /> */}
+      <Footer />
     </>
   )
 }

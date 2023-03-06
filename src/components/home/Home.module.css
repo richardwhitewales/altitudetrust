@@ -1,0 +1,14 @@
+.hero {
+    height: 100vh;
+    background-color: #161A1E;
+    background-image: url("/hero.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.hero>h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
