@@ -177,3 +177,17 @@ body {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+.policy_hero {
+    height: 60vh;
+    background-color: #161A1E;
+    background-image: url("/policy.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.policy_hero>h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}

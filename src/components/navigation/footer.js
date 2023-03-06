@@ -81,6 +81,9 @@ export default function Footer() {
                                     <li className="nav-item py-2 px-0">
                                         <Link className="nav-link" href="/contact">Contact Us</Link>
                                     </li>
+                                    <li className="nav-item py-2 px-0">
+                                        <Link className="nav-link" href="/policy">Privacy Policy</Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
