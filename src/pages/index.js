@@ -1,12 +1,10 @@
 import Head from 'next/head'
 import Navbar from '@/components/navigation/navbar'
 import Footer from '@/components/navigation/footer'
-// import Welcome from '@/components/home/welcome'
-// import Services from '@/components/home/services'
-// import Reason from '@/components/home/reason'
-// import Team from '@/components/home/team'
+import Reason from '@/components/home/reason'
 import Hero from '@/components/home/hero'
 import { getWSSchema, getWPSchema, getLBSchema } from '@/components/schema';
+import Services from '@/components/services/services'
 
 export default function HomePage() {
   // page default data
@@ -83,10 +81,8 @@ export default function HomePage() {
 
       <Navbar />
       <Hero />
-      {/* <Welcome /> */}
-      {/* <Services /> */}
-      {/* <Reason /> */}
-      {/* <Team /> */}
+      <Services />
+      <Reason />
       <Footer />
     </>
   )

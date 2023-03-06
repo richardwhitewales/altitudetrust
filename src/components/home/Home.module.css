@@ -12,3 +12,35 @@
     color: white;
     text-transform: uppercase;
 }
+
+.reason {
+    float: left;
+    background: url('/reason.png');
+    text-align: center;
+    width: 100vw;
+    position: relative;
+    z-index: 9;
+    background-attachment: fixed;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.reason:before {
+    bottom: 0;
+    content: "";
+    left: 0;
+    opacity: 0.8;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    background: #161A1E;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
