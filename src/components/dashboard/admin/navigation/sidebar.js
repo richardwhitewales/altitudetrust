@@ -43,12 +43,12 @@ export default function Sidebar() {
                         <span className="d-none d-md-block">Doc Upload</span>
                     </Link>
                 </li>
-                <li className={router.asPath == "/dashboard/admin/admin" ? styles.active : ""}>
+                {/* <li className={router.asPath == "/dashboard/admin/admin" ? styles.active : ""}>
                     <Link href="/dashboard/admin/admin" >
                         <span><FontAwesomeIcon icon={faWallet} /></span>
                         <span className="d-none d-md-block">Admin</span>
                     </Link>
-                </li>
+                </li> */}
             </ul>
         </div>
     )

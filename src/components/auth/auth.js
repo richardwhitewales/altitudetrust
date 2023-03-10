@@ -49,11 +49,15 @@ export default function Auth({ isLogin, isSignup }) {
                     .then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             const user = docSnapshot.data();
-                            Cookies.set("ALLoggedIn", true, { expires: 7 });
-                            if (user.email == "info@altitudetrust.com") {
-                                router.push('/dashboard/admin');
+                            if (user.status == false) {
+                                router.push('/dashboard/auth/login');
                             } else {
-                                router.push('/dashboard/user');
+                                Cookies.set("ALLoggedIn", true, { expires: 7 });
+                                if (user.email == "info@altitudetrust.com") {
+                                    router.push('/dashboard/admin');
+                                } else {
+                                    router.push('/dashboard/user');
+                                }
                             }
                         } else {
                             console.log('Profile not found');

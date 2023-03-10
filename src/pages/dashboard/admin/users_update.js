@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { getWSSchema, getWPSchema, getLBSchema } from '@/components/schema';
-import AdminDashboard from '@/components/dashboard/admin/content/dashboard'
+import UsersUpdate from '@/components/dashboard/admin/content/users_update'
 import Sidebar from '@/components/dashboard/admin/navigation/sidebar';
 import Navbar from '@/components/dashboard/admin/navigation/navbar';
 
-export default function AdminDashboardPage() {
+export default function UsersUpdatePage() {
     // page default data
-    const pageName = "Altitudetrust - Admin Dashboard";
+    const pageName = "Altitudetrust - Admin Users Update";
     const pageDesc = "Welcome To Altitudetrust Get Started PROFESSIONAL BANKING SERVICE Most of our online content and services are available in English. We do have English content to get you started and are continuously striving to improve the online experience for our international customers. Need a Loan ? Sign Up Why Bank with US? Besides saving fixed investments";
     const baseURL = "https://altitudetrust.com";
     const pageURL = "https://altitudetrust.com/dashboard/admin";
@@ -23,7 +23,7 @@ export default function AdminDashboardPage() {
             {
                 "@type": "ListItem",
                 "position": 1,
-                "name": "Admin Dashboard",
+                "name": "Admin Users Update",
                 "item": pageURL
             }
         ]
@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
             <main className="d-flex" style={{ paddingTop: "6.5rem" }}>
                 <Sidebar />
                 <Navbar />
-                <AdminDashboard />
+                <UsersUpdate />
             </main>
         </>
     )

@@ -8,12 +8,10 @@ import { auth, FireApp } from "@/firebase/firebase";
 import { getFirestore, doc, getDoc, getDocs, collection, limit, query } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 
-export default function AdminDashboard() {
+export default function Users() {
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [totalBalance, setTotalBalance] = useState(0);
-    const [fundRate, setFundRate] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -34,31 +32,6 @@ export default function AdminDashboard() {
                     console.log('Error getting profile:', error);
                 });
         }
-    }, []);
-
-    useEffect(() => {
-        const db = getFirestore(FireApp);
-
-        const getUsersData = async () => {
-            const usersSnapshot = await getDocs(collection(db, 'users'));
-            let dTotal = 0;
-            let wTotal = 0;
-
-            usersSnapshot.forEach((doc) => {
-                const dashboard = doc.data().dashboard;
-                for (const i in dashboard.deposit) {
-                    const deposit = parseInt(dashboard.deposit);
-                    dTotal += deposit;
-                }
-                for (const i in dashboard.withdraw) {
-                    const withdraw = parseInt(dashboard.withdraw);
-                    wTotal += withdraw;
-                }
-            });
-            setFundRate((dTotal / 3) / (wTotal / 3))
-            setTotalBalance((dTotal / 3) + (wTotal / 3));
-        };
-        getUsersData();
     }, []);
 
     useEffect(() => {
@@ -89,30 +62,6 @@ export default function AdminDashboard() {
         <div className={styles.content}>
             <div className={styles.greeting}>
                 Greetings,  {user.firstName}
-            </div>
-
-            <div className="row mt-5">
-                <div className="col-md-6">
-                    <div className={`mr-2 mb-2 ${styles.balanceCard} shadow`}>
-                        <span className={styles.title}>
-                            Altitude Trust Total
-                        </span>
-                        <span className={styles.balance}>
-                            {formatCurrency(totalBalance)}
-                        </span>
-                    </div>
-                </div>
-
-                <div className="col-md-6">
-                    <div className={`mr-2 mb-2 ${styles.balanceCard} bg_secondary shadow`}>
-                        <span className={`${styles.title} bg_white secondary`}>
-                            Funding Rate (%)
-                        </span>
-                        <span className={`${styles.balance} white`}>
-                            {fundRate.toFixed(4)}
-                        </span>
-                    </div>
-                </div>
             </div>
 
             <div className="row mt-5">
@@ -278,7 +227,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="col-12 text-center">
-                    <Link href="/dashboard/admin/users" className="btn btn_primary">
+                    <Link href="/dashboard/admin/user" className="btn btn_primary">
                         View All Users
                     </Link>
                 </div>

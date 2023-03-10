@@ -1,2 +1,5 @@
 CUSTOM EMAIL: info@altitudetrust.com
 CUSTOM EMAIL PASSWORD: AltitudetrustAdmin23
+
+Admin EMAIL: info@altitudetrust.com
+Admin PASSWORD: AltitudetrustAdmin23
