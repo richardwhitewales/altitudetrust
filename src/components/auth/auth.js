@@ -44,8 +44,6 @@ export default function Auth({ isLogin, isSignup }) {
         await signIn(email, password)
             .then((data) => {
                 setLoading(false);
-                console.log("jj");
-
                 const profileRef = doc(db, "users", data.user.email);
                 getDoc(profileRef)
                     .then((docSnapshot) => {
