@@ -11,10 +11,10 @@ export default function Withdrawal() {
     const [amount, setAmount] = useState("");
     const [done, setDone] = useState(false);
     const [balanceErr, setBalanceErr] = useState("");
-    const db = getFirestore(FireApp);
 
     useEffect(() => {
         const user = auth.currentUser;
+        const db = getFirestore(FireApp);
 
         if (user) {
             const profileRef = doc(db, 'users', user.email);
@@ -39,6 +39,7 @@ export default function Withdrawal() {
     const makeWithdraw = async event => {
         event.preventDefault();
 
+        const db = getFirestore(FireApp);
         const docRef = doc(db, 'users', user.email);
         const balance = parseInt(user.dashboard.balance);
         const withdrawBalance = parseInt(user.dashboard.withdraw);

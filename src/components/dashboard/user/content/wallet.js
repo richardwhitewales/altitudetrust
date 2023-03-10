@@ -20,12 +20,11 @@ export default function Wallet() {
     const [accountType, setAccountType] = useState("Savings");
     const [gender, setGender] = useState("Male");
     const [dob, setdob] = useState("");
-
     const [done, setDone] = useState(false);
-    const db = getFirestore(FireApp);
 
     useEffect(() => {
         const user = auth.currentUser;
+        const db = getFirestore(FireApp);
 
         if (user) {
             const profileRef = doc(db, 'users', user.email);
@@ -50,6 +49,7 @@ export default function Wallet() {
     const onUpdate = async event => {
         event.preventDefault();
 
+        const db = getFirestore(FireApp);
         const docRef = doc(db, 'users', user.email);
 
         await updateDoc(docRef, {

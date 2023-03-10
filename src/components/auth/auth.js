@@ -97,6 +97,12 @@ export default function Auth({ isLogin, isSignup }) {
                     gender: gender,
                     dob: dob,
                     password: signUpPassword,
+                    status: true,
+                    dashboard: {
+                        balance: "0",
+                        deposit: "0",
+                        withdraw: "0"
+                    }
                 };
 
                 setDoc(doc(collRef, signUpEmail), userDoc)
