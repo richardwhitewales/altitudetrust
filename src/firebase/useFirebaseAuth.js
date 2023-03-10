@@ -36,6 +36,7 @@ export default function useFirebaseAuth() {
   const logOut = async () => {
     await signOut(auth).then(clear);
     Cookies.remove("ALLoggedIn");
+    window.location.reload(true)
   }
 
   useEffect(() => {

@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from "next/router";
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/firebase/context/AuthUserContext';
 
 export default function Navbar() {
     const router = useRouter();
     const [isScrolled, setIsScrolled] = useState(false);
+    const { authUser, loading, logOut } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -65,11 +67,18 @@ export default function Navbar() {
                                 <Link className={`nav-link ${router.asPath == "/contact" ? "secondary" : "white"}`} href="/contact">Contact</Link>
                             </li>
 
-                            <li className="nav-item">
-                                <Link className="btn btn-sm btn_secondary m-1" href="/auth/login">
-                                    Login
-                                </Link>
-                            </li>
+                            {!loading && authUser && authUser.uid ?
+                                <li className="nav-item">
+                                    <button onClick={logOut} className="btn btn-sm btn_secondary m-1">
+                                        Logout
+                                    </button>
+                                </li>
+                                : <li className="nav-item">
+                                    <Link className="btn btn-sm btn_secondary m-1" href="/auth/login">
+                                        Login
+                                    </Link>
+                                </li>
+                            }
 
                             <li className="nav-item">
                                 <Link className="btn btn-sm btn_secondary m-1" href="tel:+447418371280">
