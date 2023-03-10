@@ -9,10 +9,10 @@ export default function Deposit() {
     const [deposit, setDeposit] = useState("");
     const [amount, setAmount] = useState("");
     const [done, setDone] = useState(false);
-    const db = getFirestore(FireApp);
 
     useEffect(() => {
         const user = auth.currentUser;
+        const db = getFirestore(FireApp);
 
         if (user) {
             const profileRef = doc(db, 'users', user.email);
@@ -37,6 +37,7 @@ export default function Deposit() {
     const makeDeposit = async event => {
         event.preventDefault();
 
+        const db = getFirestore(FireApp);
         const docRef = doc(db, 'users', user.email);
         const balance = parseInt(user.dashboard.balance);
         const depositBalance = parseInt(user.dashboard.deposit);
