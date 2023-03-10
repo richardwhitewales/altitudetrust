@@ -239,3 +239,19 @@ export const countryOption = [
     <option key="192" value="ZAMBIA">ZAMBIA</option>,
     <option key="193" value="ZIMBABWE">ZIMBABWE</option>,
 ]
+
+export function genRandomNum(numNumbers) {
+    const usedDigits = [];
+    let uniqueNumber = "";
+
+    while (uniqueNumber.length < numNumbers) {
+        const digit = Math.floor(Math.random() * numNumbers);
+
+        if (!usedDigits.includes(digit)) {
+            uniqueNumber += digit;
+            usedDigits.push(digit);
+        }
+    }
+
+    return Number(uniqueNumber);
+}

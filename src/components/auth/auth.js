@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { auth, FireApp } from "@/firebase/firebase";
 import { getFirestore, collection, doc, setDoc, getDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { countryOption } from '@/components/utils';
+import { countryOption, genRandomNum } from '@/components/utils';
 
 const db = getFirestore(FireApp);
 
@@ -32,6 +32,8 @@ export default function Auth({ isLogin, isSignup }) {
     const [resetEmail, setResetEmail] = useState("");
     const [resetError, setResetError] = useState("");
     const [resetSuccess, setResetSuccess] = useState("");
+    const accountNumber = genRandomNum(10);
+    const rountingNumber = genRandomNum(9);
 
     const router = useRouter();
     const { signIn, signUp } = useAuth();
@@ -100,6 +102,8 @@ export default function Auth({ isLogin, isSignup }) {
                     dob: dob,
                     password: signUpPassword,
                     status: true,
+                    accountNumber: `${accountNumber}`,
+                    rountingNumber: `${rountingNumber}`,
                     dashboard: {
                         balance: "0",
                         deposit: "0",
