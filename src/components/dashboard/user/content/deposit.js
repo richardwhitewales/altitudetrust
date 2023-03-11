@@ -231,7 +231,7 @@ export default function Deposit() {
                             <div className="alert alert-info">
                                 If you are making a bank transfer, please note that depending on your location,
                                 transaction might take up to 5 business days to confirm. If you encounter any
-                                issue while funding your account, please contact payment@tradeby.org for assistance.
+                                issue while funding your account, please contact info@altitudetrust.com for assistance.
                             </div>
 
                             <div id="otherSuccess" className="alert alert-success text-center" style={{ display: "none" }}>

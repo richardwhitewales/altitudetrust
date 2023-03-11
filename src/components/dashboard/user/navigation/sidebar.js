@@ -31,16 +31,16 @@ export default function Sidebar() {
                         <span className="d-none d-md-block">Dashboard</span>
                     </Link>
                 </li>
-                <li className={router.asPath == "/dashboard/user/deposit" ? styles.active : ""}>
+                {/* <li className={router.asPath == "/dashboard/user/deposit" ? styles.active : ""}>
                     <Link href="/dashboard/user/deposit" >
                         <span><FontAwesomeIcon icon={faCoins} /></span>
                         <span className="d-none d-md-block">Deposit</span>
                     </Link>
-                </li>
+                </li> */}
                 <li className={router.asPath == "/dashboard/user/withdrawal" ? styles.active : ""}>
                     <Link href="/dashboard/user/withdrawal" >
                         <span><FontAwesomeIcon icon={faMoneyBillTransfer} /></span>
-                        <span className="d-none d-md-block">Withdrawal</span>
+                        <span className="d-none d-md-block">Withdrawal / Transfer</span>
                     </Link>
                 </li>
                 <li className={router.asPath == "/dashboard/user/upload_id" ? styles.active : ""}>

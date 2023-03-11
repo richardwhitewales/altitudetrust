@@ -75,7 +75,6 @@ export default function Users() {
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Username</th>
                                         <th scope="col">FirstName</th>
                                         <th scope="col">LastName</th>
                                         <th scope="col">Email</th>
@@ -89,7 +88,6 @@ export default function Users() {
                                     {users.map((users, index) => (
                                         <tr key={index}>
                                             <th scope="row">{index}</th>
-                                            <td>{users.username}</td>
                                             <td>{users.firstName}</td>
                                             <td>{users.lastName}</td>
                                             <td>{users.email}</td>
@@ -224,12 +222,6 @@ export default function Users() {
                             </div>
                         </div>
                     }
-                </div>
-
-                <div className="col-12 text-center">
-                    <Link href="/dashboard/admin/user" className="btn btn_primary">
-                        View All Users
-                    </Link>
                 </div>
             </div>
 

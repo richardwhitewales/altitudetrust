@@ -1,16 +1,13 @@
 import styles from '@/components/dashboard/Content.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBtc } from '@fortawesome/free-brands-svg-icons'
 import { useState, useEffect } from 'react';
 import { auth, FireApp } from "@/firebase/firebase";
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, getDocs, updateDoc, collection, setDoc } from 'firebase/firestore';
 import { formatCurrency } from '@/components/utils'
 
 export default function Withdrawal() {
     const [user, setUser] = useState(null);
+    const [history, setHistory] = useState([]);
     const [amount, setAmount] = useState("");
-    const [done, setDone] = useState(false);
-    const [balanceErr, setBalanceErr] = useState("");
 
     useEffect(() => {
         const user = auth.currentUser;
@@ -32,6 +29,21 @@ export default function Withdrawal() {
         }
     }, []);
 
+    useEffect(() => {
+        const db = getFirestore(FireApp);
+        const getHistoryData = async () => {
+            const usersSnapshot = await getDocs(collection(db, 'history'));
+            let innerHistory = [];
+
+            usersSnapshot.forEach((doc) => {
+                const data = doc.data();
+                innerHistory.push(data)
+            });
+            setHistory(innerHistory);
+        };
+        getHistoryData();
+    }, []);
+
     if (!user) {
         return <div className={styles.process} />
     }
@@ -51,15 +63,24 @@ export default function Withdrawal() {
             await updateDoc(docRef, {
                 "dashboard.balance": `${balance - intAmount}`,
                 "dashboard.withdraw": `${withdrawBalance + intAmount}`,
-            }).then(() => { setDone(true) });
+            }).then(() => {
+                const collRef = collection(db, "history");
+                const userDoc = {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    phoneNumber: user.phoneNumber,
+                    amount: amount
+                };
+
+                setDoc(doc(collRef, user.email), userDoc)
+                    .then(() => {
+                        setDone(true);
+                        let otherSuccess = document.getElementById("otherSuccess");
+                        otherSuccess.style.display = "block";
+                    })
+            });
         }
-    }
-
-    const otherPayment = async event => {
-        event.preventDefault();
-
-        let otherSuccess = document.getElementById("otherSuccess");
-        otherSuccess.style.display = "block";
     }
 
     return (
@@ -81,87 +102,36 @@ export default function Withdrawal() {
                 </div>
             </div>
 
-            <div className="row mt-5">
-                <div className="col-sm-6 mb-2">
+            <div className="row mt-5 justify-content-center">
+                <div className="col-sm-8 mb-2">
                     <div className={`mr-2 ${styles.card} ${styles.faq}`}>
                         <b>Make Withdrawal</b>
 
                         <hr />
 
                         <div className="alert alert-info">
-                            <b>NOTE</b> Depending on your Location, Bank Withdrawal can take up to 5 Business Days to confirm
+                            <b>NOTE</b>
+                            <br />
+                            Depending on your Location, Bank Withdrawal can take up to 5 Business Days to confirm.
+                            If you are making a bank transfer, please note that depending on your location,
+                            transaction might take up to 5 business days to confirm. If you encounter any
+                            issue while funding your account, please contact info@altitudetrust.com for assistance.
                         </div>
 
-                        <div className="text-center mt-4">
-                            <b>Select Withdrawal Method </b>
-                            <div className="d-flex justify-content-around mt-3">
-                                <button type="button" className={styles.withdrawBtn} data-bs-toggle="modal" data-bs-target="#withdrawBTCModal">
-                                    <FontAwesomeIcon icon={faBtc} size="2x" />
-                                </button>
-
-                                <div className="modal fade" id="withdrawBTCModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="withdrawBTCModalLabel" aria-hidden="true">
-                                    <div className="modal-dialog modal-dialog-centered">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id="withdrawBTCModalLabel">BTC Withdraw</h1>
-                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form onSubmit={makeWithdraw}>
-                                                <div className="modal-body">
-                                                    {done && <div className="alert alert-success">All Done! Will contact you for confirmation</div>}
-                                                    {balanceErr != "" && <div className="alert alert-danger">{balanceErr}</div>}
-                                                    <div id="btcSuccess" className="alert alert-success" style={{ display: "none" }}>
-                                                        Your Address will be credited with in 1-5 business days. For any information
-                                                        contact us via email or WhatsApp.
-                                                    </div>
-
-                                                    <div className="form-floating mb-3">
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="btcAmount"
-                                                            required
-                                                            placeholder="Withdrawal Amount"
-                                                            onChange={(event) => setAmount(event.target.value)}
-                                                        />
-                                                        <label htmlFor="btcAmount">Withdrawal Amount</label>
-                                                    </div>
-                                                </div>
-                                                <div className="modal-footer" style={{ border: "none" }}>
-                                                    <button type="submit" className="btn btn-md btn-success" onClick={() => {
-                                                        let btcSuccess = document.getElementById("btcSuccess");
-                                                        btcSuccess.style.display = "block";
-                                                    }}>
-                                                        Withdraw
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="col-sm-6 mb-2">
-                    <div className={`mr-2 ${styles.card} ${styles.faq}`}>
-                        <b>Other payment methods</b>
-
-                        <hr />
-
-                        <form onSubmit={otherPayment}>
-                            <div className="text-muted">
-                                If you are making a bank transfer, please note that depending on your location,
-                                transaction might take up to 5 business days to confirm. If you encounter any
-                                issue while funding your account, please contact payment@tradeby.org for assistance.
-                            </div>
-
+                        <form onSubmit={makeWithdraw}>
                             <div id="otherSuccess" className="alert alert-success text-center" style={{ display: "none" }}>
                                 We will contact you soon!
                             </div>
+
                             <div className="form-floating mb-3">
-                                <input type="text" className="form-control" id="otherAmount" required placeholder="Amount (usd)" />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="otherAmount"
+                                    required
+                                    placeholder="Amount (usd)"
+                                    onChange={(event) => setAmount(event.target.value)}
+                                />
                                 <label htmlFor="otherAmount">Amount (USD)</label>
                             </div>
                             <div className="form-floating mb-3">
@@ -177,6 +147,43 @@ export default function Withdrawal() {
                                 Submit
                             </button>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row mt-5">
+                <div className="col-12">
+                    <div className={`mr-2 mb-2 ${styles.wallet}`} style={{ height: "auto" }}>
+                        <div className={`${styles.header} border-none border-bottom-0`}>
+                            History
+                        </div>
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">FirstName</th>
+                                        <th scope="col">LastName</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {history.map((his, index) => (
+                                        his.email == user.email &&
+                                        <tr key={index}>
+                                            <th scope="row">{index}</th>
+                                            <td>{his.firstName}</td>
+                                            <td>{his.lastName}</td>
+                                            <td>{his.email}</td>
+                                            <td>{his.phoneNumber}</td>
+                                            <td>{his.amount}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
