@@ -1,7 +1,7 @@
 import styles from '@/components/dashboard/Content.module.css'
 import { useState, useEffect } from 'react';
 import { auth, FireApp } from "@/firebase/firebase";
-import { getFirestore, doc, getDoc, getDocs, updateDoc, collection, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, getDocs, updateDoc, collection, addDoc } from 'firebase/firestore';
 import { formatCurrency } from '@/components/utils'
 
 export default function Withdrawal() {
@@ -76,11 +76,13 @@ export default function Withdrawal() {
                     lastName: user.lastName,
                     email: user.email,
                     phoneNumber: user.phoneNumber,
-                    amount: amount
+                    amount: amount,
                 };
-                setDoc(doc(collRef, collRef.id), userDoc);
+                addDoc(collRef, userDoc);
                 let otherSuccess = document.getElementById("otherSuccess");
                 otherSuccess.style.display = "block";
+
+                window.location.reload;
             });
         }
     }
