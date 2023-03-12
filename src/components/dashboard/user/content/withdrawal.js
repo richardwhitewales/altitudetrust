@@ -30,18 +30,24 @@ export default function Withdrawal() {
     }, []);
 
     useEffect(() => {
+        const user = auth.currentUser;
         const db = getFirestore(FireApp);
-        const getHistoryData = async () => {
-            const usersSnapshot = await getDocs(collection(db, 'history'));
-            let innerHistory = [];
 
-            usersSnapshot.forEach((doc) => {
-                const data = doc.data();
-                innerHistory.push(data)
-            });
-            setHistory(innerHistory);
-        };
-        getHistoryData();
+        if (user) {
+            const getHistoryData = async () => {
+                const usersSnapshot = await getDocs(collection(db, 'history'));
+                let innerHistory = [];
+
+                usersSnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.email == user.email) {
+                        innerHistory.push(data)
+                    }
+                });
+                setHistory(innerHistory);
+            };
+            getHistoryData();
+        }
     }, []);
 
     if (!user) {
@@ -72,13 +78,9 @@ export default function Withdrawal() {
                     phoneNumber: user.phoneNumber,
                     amount: amount
                 };
-
-                setDoc(doc(collRef, user.email), userDoc)
-                    .then(() => {
-                        setDone(true);
-                        let otherSuccess = document.getElementById("otherSuccess");
-                        otherSuccess.style.display = "block";
-                    })
+                setDoc(doc(collRef, collRef.id), userDoc);
+                let otherSuccess = document.getElementById("otherSuccess");
+                otherSuccess.style.display = "block";
             });
         }
     }
